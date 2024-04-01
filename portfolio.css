@@ -1,0 +1,38 @@
+body {
+    font-family: 'Your-Font-Family', sans-serif;
+    color: #d35400; /* This color is for the text, choose what you prefer */
+    background-color: #fff; /* White background */
+    text-align: center; /* Center-aligning text */
+    margin: 0;
+    padding: 0;
+}
+
+header h1 {
+    margin-top: 50px; /* Adjust as needed */
+    font-size: 24px; /* Adjust as needed */
+}
+
+main h2 {
+    font-size: 48px; /* Large, bold text */
+    margin: 20px 0; /* Space out the text */
+}
+
+nav ul {
+    list-style-type: none; /* No bullets */
+    padding: 0;
+}
+
+nav li {
+    display: inline; /* Horizontal list */
+    margin-right: 20px; /* Spacing between links */
+}
+
+nav a {
+    text-decoration: none; /* No underline */
+    color: inherit; /* Same color as text */
+    font-size: 18px; /* Adjust as needed */
+}
+
+nav a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
