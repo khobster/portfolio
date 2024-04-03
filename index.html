@@ -27,9 +27,10 @@
     <script>
         async function fetchRandomWord() {
             try {
-                const response = await fetch(`https://api.datamuse.com/words?max=10`);
+                // Making a general query without specifying parts of speech to ensure words are returned
+                const response = await fetch(`https://api.datamuse.com/words?max=10&topics=science`);
                 const words = await response.json();
-                console.log(words); // Debug: Log the words array
+                console.log(words); // Debugging: Log the fetched words
                 if (words.length > 0) {
                     const randomIndex = Math.floor(Math.random() * words.length);
                     return words[randomIndex].word;
@@ -54,7 +55,7 @@
 
         async function speakSentence() {
             const sentence = await generateRandomSentence();
-            console.log(sentence); // Debug: Log the sentence
+            console.log(sentence); // Debugging: Log the generated sentence
             const utterance = new SpeechSynthesisUtterance(sentence);
             window.speechSynthesis.speak(utterance);
         }
