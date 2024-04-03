@@ -39,7 +39,6 @@ nav a:hover {
 
 .caption-bubble {
     position: absolute;
-    width: auto;
     min-width: 100px; /* Adjust based on your design */
     max-width: 300px; /* Adjust based on your design */
     padding: 10px;
@@ -49,20 +48,21 @@ nav a:hover {
     font-family: 'Comic Sans MS', cursive, sans-serif;
     display: none; /* Initially hidden */
     text-align: center;
-    /* Position it according to Bub's image position */
-    top: 20%; /* Example; adjust as needed */
-    left: 50%; /* Example; adjust as needed */
-    transform: translate(-50%, -50%);
+    /* Position it near Bub's face */
+    top: 50%; /* Adjust this to move the bubble up or down */
+    left: 120%; /* Adjust this to move the bubble left or right */
+    transform: translateX(-100%); /* Adjust if needed */
+    z-index: 100; /* Ensure it's above other elements */
 }
 
 .caption-bubble::after {
     content: '';
     position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -10px;
-    border-width: 10px;
+    top: 50%;
+    left: -20px; /* Adjust this to align with the edge of the bubble */
+    margin-top: -10px;
+    border-width: 20px;
     border-style: solid;
-    border-color: #fff transparent transparent transparent;
-    border-top-color: #fff;
+    border-color: transparent transparent transparent #fff;
+    /* This creates the 'tail' of the speech bubble */
 }
