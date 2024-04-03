@@ -56,7 +56,7 @@
             const randomCityObject = getRandomElement(cities);
             const randomCity = randomCityObject[","]; // Correctly access the city-country pair
 
-            return `In ${days} days, you'll be ${randomActivity} in ${randomCity} with ${randomName}.`;
+            return `In ${days} days, you'll ${randomActivity} in ${randomCity} with ${randomName}.`;
         }
 
         async function speakSentence() {
