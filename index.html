@@ -25,9 +25,8 @@
         </nav>
     </main>
     <script>
-        async function fetchWord(partOfSpeech) {
-            // Example query without part-of-speech filtering, just to ensure we get *some* words
-            const response = await fetch(`https://api.datamuse.com/words?max=10&md=p`);
+        async function fetchRandomWord() {
+            const response = await fetch(`https://api.datamuse.com/words?max=10`);
             const words = await response.json();
             if (words.length > 0) {
                 const randomIndex = Math.floor(Math.random() * words.length);
@@ -38,12 +37,12 @@
         }
 
         async function generateRandomSentence() {
-            const adjective = await fetchWord('adj');
-            const noun = await fetchWord('n');
-            const verb = await fetchWord('v');
-            const adverb = await fetchWord('adv');
+            const word1 = await fetchRandomWord();
+            const word2 = await fetchRandomWord();
+            const word3 = await fetchRandomWord();
+            const word4 = await fetchRandomWord();
 
-            return `The ${adjective} ${noun} ${adverb} ${verb}s.`;
+            return `${word1} ${word2} ${word3} ${word4}.`;
         }
 
         async function speakSentence() {
@@ -60,3 +59,4 @@
     </script>
 </body>
 </html>
+
