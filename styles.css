@@ -68,3 +68,7 @@ nav a:hover {
     border-color: transparent transparent transparent #fff;
     /* This creates the 'tail' of the speech bubble */
 }
+
+.caption-bubble p {
+    margin: 0; /* Remove default margin */
+}
