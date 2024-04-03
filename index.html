@@ -47,10 +47,14 @@
         }
 
         async function generateSentence() {
-            const randomTitle = await fetchRandomWikipediaTitle();
-            const preposition = ['at', 'in', 'on', 'near', 'beside'][Math.floor(Math.random() * 5)];
+            const days = Math.floor(Math.random() * 100); // Random number of days
 
-            const sentence = `Exploring ${randomTitle} ${preposition} Wikipedia.`;
+            const randomLocation = await fetchRandomWikipediaTitle();
+            const randomVerb = await fetchRandomWikipediaTitle();
+            const randomNoun = await fetchRandomWikipediaTitle();
+            const randomPerson = await fetchRandomWikipediaTitle();
+
+            const sentence = `In ${days} days, you'll be in ${randomLocation} ${randomVerb} ${randomNoun} with ${randomPerson}`;
             return sentence;
         }
 
