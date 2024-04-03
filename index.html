@@ -3,22 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Sentence Generator</title>
+    <title>Kevin Hobster</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>Random Sentence Generator</h1>
+        <h1>Kevin Hobster</h1>
     </header>
     <main>
-        <button id="generateButton">Generate Sentence</button>
-        <p id="randomSentence">Click the button to generate a sentence.</p>
+        <h2>So I created this guy named Bub the Prophet.</h2>
+        <a id="bubLink" href="#">
+            <img src="bub%20the%20prophet%20no%20background.png" alt="Bub the Prophet">
+        </a>
+        <nav>
+            <ul>
+                <li><a href="copywriting.html">Copywriting</a></li>
+                <li><a href="visual-art.html">Visual Art</a></li>
+                <li><a href="freelance.html">Freelance</a></li>
+                <li><a href="bio-contact.html">Bio/Contact</a></li>
+            </ul>
+        </nav>
     </main>
     <script>
-        const activities = ['doing burpees', 'listening to', 'playing gin rummy', 'doing bicep curls', 'watching'];
-        const locations = ['in the park', 'in a 2007 Nissan Altima', 'in the foothills of the Himalayas', 'in Paris'];
-        const additionalPhrases = ['on my way to grandma\'s house', 'with Xi Jinping', '"Moonlight Sonata"', '"Fiddler on the Roof"'];
-
         async function fetchRandomWikipediaTitle() {
             const url = 'https://en.wikipedia.org/w/api.php?' +
                         new URLSearchParams({
@@ -42,18 +48,22 @@
 
         async function generateSentence() {
             const randomTitle = await fetchRandomWikipediaTitle();
-            const activity = activities[Math.floor(Math.random() * activities.length)];
-            const location = locations[Math.floor(Math.random() * locations.length)];
-            const additionalPhrase = additionalPhrases[Math.floor(Math.random() * additionalPhrases.length)];
+            const preposition = ['at', 'in', 'on', 'near', 'beside'][Math.floor(Math.random() * 5)];
 
-            // Constructing the sentence. Adjust as needed for coherence.
-            const sentence = `${location} ${activity} ${randomTitle || additionalPhrase}`;
+            const sentence = `Exploring ${randomTitle} ${preposition} Wikipedia.`;
             return sentence;
         }
 
-        document.getElementById('generateButton').addEventListener('click', async () => {
+        async function speakSentence() {
             const sentence = await generateSentence();
-            document.getElementById('randomSentence').textContent = sentence;
+            console.log(sentence); // For debugging
+            const utterance = new SpeechSynthesisUtterance(sentence);
+            window.speechSynthesis.speak(utterance);
+        }
+
+        document.getElementById('bubLink').addEventListener('click', async function(event) {
+            event.preventDefault(); // Prevent the default behavior
+            await speakSentence();
         });
     </script>
 </body>
