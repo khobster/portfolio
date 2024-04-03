@@ -50,8 +50,8 @@ nav a:hover {
     text-align: center;
     /* Position it near Bub's face */
     top: 50%; /* Adjust this to move the bubble up or down */
-    left: 120%; /* Adjust this to move the bubble left or right */
-    transform: translateX(-100%); /* Adjust if needed */
+    left: 50%; /* Adjust this to center the bubble horizontally */
+    transform: translate(-50%, -50%); /* Center the bubble horizontally and vertically */
     z-index: 100; /* Ensure it's above other elements */
 }
 
