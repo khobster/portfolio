@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta viewport="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kevin Hobster</title>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -12,7 +12,8 @@
     </header>
     <main>
         <h2>So I created this guy named Bub the Prophet.</h2>
-        <!-- Added an ID for text feedback -->
+        <label for="voiceSelection">Choose a Voice:</label>
+        <select id="voiceSelection"></select>
         <p id="sentenceFeedback">Click Bub to hear your destiny.</p>
         <a id="bubLink" href="#">
             <img src="bub%20the%20prophet%20no%20background.png" alt="Bub the Prophet">
@@ -58,33 +59,42 @@
             const randomCityObject = getRandomElement(cities);
             const randomCity = randomCityObject[","];
 
-            return `In ${days} days, you'll ${randomActivity} in ${randomCity}.`;
+            return `In ${days} days, you'll ${randomActivity} in ${randomCity} with ${randomName}.`;
         }
 
         async function speakSentence() {
-            // Set feedback for starting process
             document.getElementById('sentenceFeedback').textContent = 'Listen closely...';
 
             const sentence = await generateSentence();
-            console.log(sentence); // For debugging
-            
             const utterance = new SpeechSynthesisUtterance(sentence);
-            utterance.voice = speechSynthesis.getVoices().find(voice => voice.name === 'Google UK English Male');
-            if (!utterance.voice) {
-                console.log("Google UK English Male voice not found, using default voice.");
-            }
-            window.speechSynthesis.speak(utterance);
-            
-            // Reset feedback after speaking
+            const voiceSelect = document.getElementById('voiceSelection');
+            const selectedVoiceName = voiceSelect.options[voiceSelect.selectedIndex].value;
+            utterance.voice = speechSynthesis.getVoices().find(voice => voice.name === selectedVoiceName);
+
+            speechSynthesis.speak(utterance);
             utterance.onend = () => {
                 document.getElementById('sentenceFeedback').textContent = 'Click Bub to hear your destiny again.';
             };
+        }
+
+        function populateVoiceList() {
+            const voiceSelect = document.getElementById('voiceSelection');
+            const voices = speechSynthesis.getVoices();
+            voiceSelect.innerHTML = '';
+            voices.forEach(voice => {
+                const option = document.createElement('option');
+                option.textContent = `${voice.name} (${voice.lang})`;
+                option.value = voice.name;
+                voiceSelect.appendChild(option);
+            });
         }
 
         document.getElementById('bubLink').addEventListener('click', function(event) {
             event.preventDefault(); // Prevent the default behavior
             speakSentence();
         });
+
+        speechSynthesis.onvoiceschanged = populateVoiceList;
     </script>
 </body>
 </html>
