@@ -71,4 +71,6 @@ nav a:hover {
 
 .caption-bubble p {
     margin: 0; /* Remove default margin */
+    color: #000; /* Black font color */
+    font-weight: bold; /* Make font bold */
 }
