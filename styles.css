@@ -37,7 +37,7 @@ nav a:hover {
     text-decoration: underline; /* Underline on hover */
 }
 
-caption-bubble {
+.caption-bubble {
     position: absolute;
     min-width: 100px; /* Adjust based on your design */
     max-width: 300px; /* Adjust based on your design */
