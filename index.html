@@ -46,11 +46,35 @@
             }
         }
 
-        async function generateSentence() {
-            const randomTitle = await fetchRandomWikipediaTitle();
-            const preposition = ['at', 'in', 'on', 'near', 'beside'][Math.floor(Math.random() * 5)];
+        async function fetchRandomLocation() {
+            // Fetch a random location from Wikipedia
+            return await fetchRandomWikipediaTitle();
+        }
 
-            const sentence = `Exploring ${randomTitle} ${preposition} Wikipedia.`;
+        async function fetchRandomVerb() {
+            // Fetch a random verb from Wikipedia
+            return await fetchRandomWikipediaTitle();
+        }
+
+        async function fetchRandomCommonNoun() {
+            // Fetch a random common noun from Wikipedia
+            return await fetchRandomWikipediaTitle();
+        }
+
+        async function fetchRandomPerson() {
+            // Fetch a random person from Wikipedia
+            return await fetchRandomWikipediaTitle();
+        }
+
+        async function generateSentence() {
+            const days = Math.floor(Math.random() * 100); // Random number of days
+
+            const randomLocation = await fetchRandomLocation();
+            const randomVerb = await fetchRandomVerb();
+            const randomNoun = await fetchRandomCommonNoun();
+            const randomPerson = await fetchRandomPerson();
+
+            const sentence = `In ${days} days, you'll be in ${randomLocation} ${randomVerb} ${randomNoun} with ${randomPerson}`;
             return sentence;
         }
 
@@ -58,13 +82,6 @@
             const sentence = await generateSentence();
             console.log(sentence); // For debugging
             const utterance = new SpeechSynthesisUtterance(sentence);
-
-            // Get the list of available voices
-            const voices = window.speechSynthesis.getVoices();
-
-            // Select a voice (you can choose a specific voice here)
-            utterance.voice = voices[0]; // Change the index to select a different voice
-
             window.speechSynthesis.speak(utterance);
         }
 
@@ -75,4 +92,3 @@
     </script>
 </body>
 </html>
-
