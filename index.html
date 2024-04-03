@@ -26,15 +26,15 @@
     </main>
     <script>
         async function fetchWord(partOfSpeech) {
-    // Example query without part-of-speech filtering, just to ensure we get *some* words
-    const response = await fetch(`https://api.datamuse.com/words?max=10&md=p`);
-    const words = await response.json();
-    if (words.length > 0) {
-        const randomIndex = Math.floor(Math.random() * words.length);
-        return words[randomIndex].word;
-    } else {
-        return "word"; // Fallback word
-        
+            // Example query without part-of-speech filtering, just to ensure we get *some* words
+            const response = await fetch(`https://api.datamuse.com/words?max=10&md=p`);
+            const words = await response.json();
+            if (words.length > 0) {
+                const randomIndex = Math.floor(Math.random() * words.length);
+                return words[randomIndex].word;
+            } else {
+                return "word"; // Fallback word
+            }
         }
 
         async function generateRandomSentence() {
