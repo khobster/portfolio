@@ -36,3 +36,33 @@ nav a {
 nav a:hover {
     text-decoration: underline; /* Underline on hover */
 }
+
+.caption-bubble {
+    position: absolute;
+    width: auto;
+    min-width: 100px; /* Adjust based on your design */
+    max-width: 300px; /* Adjust based on your design */
+    padding: 10px;
+    background-color: #fff;
+    border: 2px solid #000;
+    border-radius: 10px;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    display: none; /* Initially hidden */
+    text-align: center;
+    /* Position it according to Bub's image position */
+    top: 20%; /* Example; adjust as needed */
+    left: 50%; /* Example; adjust as needed */
+    transform: translate(-50%, -50%);
+}
+
+.caption-bubble::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -10px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: #fff transparent transparent transparent;
+    border-top-color: #fff;
+}
