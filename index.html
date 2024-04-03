@@ -25,40 +25,44 @@
         </nav>
     </main>
     <script>
+        const verbs = [
+          'smoking', 'watching', 'playing', 'making', 'slicing',
+          'doing', 'getting', 'listening', 'singing', 'roasting',
+          'baking', 'cruising', 'betting', 'driving'
+        ];
+        const nouns = [
+          "grandma's house", 'Houston', 'Sheboygan', 'tub', 'oven',
+          'office', 'post office', 'air fryer', 'brick', 'shop', 'cigarette'
+        ];
         const prepositionsOfPlace = ['at', 'in', 'on', 'near', 'beside'];
 
-        async function fetchWord(type) {
-            let queryURL = `https://api.datamuse.com/words?max=10`;
-            
-            // Adjusting the query based on the type
-            if (type === 'noun') {
-                queryURL += `&topics=life`;
-            } else if (type === 'verb') {
-                // Attempting to fetch words that could function as verbs
-                queryURL += `&rel_jjb=time`;
-            }
-
+        async function fetchSimilarWord(word, isVerb = false) {
             try {
-                const response = await fetch(queryURL);
+                const response = await fetch(`https://api.datamuse.com/words?rel_trg=${word}&max=10`);
                 const data = await response.json();
-                if (data && data.length > 0) {
-                    // For verbs, append 'ing'. This is a simplification and might not always be correct.
-                    return type === 'verb' ? data[Math.floor(Math.random() * data.length)].word + 'ing' : data[Math.floor(Math.random() * data.length)].word;
+                if (data.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * data.length);
+                    return isVerb ? data[randomIndex].word + 'ing' : data[randomIndex].word;
                 }
             } catch (error) {
-                console.error("Error fetching word from API:", error);
+                console.error("Error fetching similar word:", error);
             }
-            return type; // Fallback to type if no word is found
+            return isVerb ? word + 'ing' : word; // Fallback
         }
 
         async function generateSentence() {
-            const verb1 = await fetchWord('verb');
-            const noun1 = await fetchWord('noun');
+            const verb1Base = verbs[Math.floor(Math.random() * verbs.length)];
+            const noun1 = nouns[Math.floor(Math.random() * nouns.length)];
             const preposition = prepositionsOfPlace[Math.floor(Math.random() * prepositionsOfPlace.length)];
-            const verb2 = await fetchWord('verb');
-            const noun2 = await fetchWord('noun');
+            const verb2Base = verbs[Math.floor(Math.random() * verbs.length)];
+            const noun2 = nouns[Math.floor(Math.random() * nouns.length)];
 
-            return `${verb1} ${noun1} ${preposition} ${verb2} ${noun2}`;
+            const verb1 = await fetchSimilarWord(verb1Base, true);
+            const similarNoun1 = await fetchSimilarWord(noun1);
+            const verb2 = await fetchSimilarWord(verb2Base, true);
+            const similarNoun2 = await fetchSimilarWord(noun2);
+
+            return `${verb1} ${similarNoun1} ${preposition} ${verb2} ${similarNoun2}`;
         }
 
         async function speakSentence() {
