@@ -37,15 +37,17 @@ nav a:hover {
     text-decoration: underline; /* Underline on hover */
 }
 
-.caption-bubble {
+caption-bubble {
     position: absolute;
     min-width: 100px; /* Adjust based on your design */
     max-width: 300px; /* Adjust based on your design */
     padding: 10px;
     background-color: #fff;
-    border: 2px solid #000;
+    border: 2px solid #000; /* Black border */
     border-radius: 10px;
-    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-family: 'Roboto', sans-serif; /* Use Roboto font */
+    font-weight: bold; /* Make font bold */
+    color: #000; /* Black font color */
     display: none; /* Initially hidden */
     text-align: center;
     /* Position it near Bub's face */
