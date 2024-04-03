@@ -62,21 +62,21 @@
         }
 
         function speakSentence(sentence) {
-            const utterance = new SpeechSynthesisUtterance(sentence);
-            utterance.voice = speechSynthesis.getVoices().find(voice => voice.lang.startsWith('en') && voice.name.includes('Male'));
-            if (!utterance.voice) {
-                console.log("Preferred voice not found, using default.");
-            }
-            window.speechSynthesis.speak(utterance);
+    const utterance = new SpeechSynthesisUtterance(sentence);
+    utterance.voice = speechSynthesis.getVoices().find(voice => voice.lang.startsWith('en') && voice.name.includes('Male'));
+    if (!utterance.voice) {
+        console.log("Preferred voice not found, using default.");
+    }
+    window.speechSynthesis.speak(utterance);
 
-            // Display the caption bubble with the sentence
-            const captionBubble = document.getElementById('captionBubble');
-            captionBubble.textContent = sentence; // Set the text
-            captionBubble.style.display = 'block'; // Show the bubble
+    // Display the caption bubble with the sentence
+    const captionBubble = document.getElementById('captionBubble');
+    captionBubble.textContent = sentence; // Set the text
+    captionBubble.classList.add('show'); // Show the bubble
 
-            utterance.onend = () => {
-                document.getElementById('sentenceFeedback').textContent = 'Click Bub to hear more.';
-                captionBubble.style.display = 'none'; // Hide the bubble after speaking
+    utterance.onend = () => {
+        document.getElementById('sentenceFeedback').textContent = 'Click Bub to hear more.';
+        captionBubble.classList.remove('show'); // Hide the bubble after speaking
             };
         }
 
