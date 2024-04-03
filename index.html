@@ -25,55 +25,40 @@
         </nav>
     </main>
     <script>
-        // Predefined list of prepositions of place
         const prepositionsOfPlace = ['at', 'in', 'on', 'near', 'beside'];
 
         async function fetchWord(type) {
-            let queryURL = `https://api.datamuse.com/words?max=10`;
-
-            switch (type) {
-                case 'verb':
-                    queryURL += `&tags=verb`;
-                    break;
-                case 'noun':
-                    queryURL += `&tags=noun`;
-                    break;
+            const response = await fetch(`https://api.datamuse.com/words?max=10&tags=${type}`);
+            const words = await response.json();
+            if (words.length > 0) {
+                return words[Math.floor(Math.random() * words.length)].word;
+            } else {
+                return type; // Fallback to type if no word is found
             }
-
-            try {
-                const response = await fetch(queryURL);
-                const words = await response.json();
-                if (words.length > 0) {
-                    const randomIndex = Math.floor(Math.random() * words.length);
-                    return words[randomIndex].word; // Assuming the first word is suitable
-                }
-            } catch (error) {
-                console.error("Error fetching word:", error);
-            }
-            return "word"; // Fallback
         }
 
         async function generateSentence() {
-            const verb1 = await fetchWord('verb') + 'ing'; // Manually adjusting to present continuous
+            const verb1 = await fetchWord('verb') + 'ing';
             const noun1 = await fetchWord('noun');
-            const preposition = prepositionsOfPlace[Math.floor(Math.random() * prepositionsOfPlace.length)]; // Random selection
-            const verb2 = await fetchWord('verb') + 'ing'; // Repeat for the second verb
+            const preposition = prepositionsOfPlace[Math.floor(Math.random() * prepositionsOfPlace.length)];
+            const verb2 = await fetchWord('verb') + 'ing';
             const noun2 = await fetchWord('noun');
-            
-            return `${verb1} ${noun1} ${preposition} ${verb2} ${noun2}.`;
+
+            return `${verb1} ${noun1} ${preposition} ${verb2} ${noun2}`;
         }
 
         async function speakSentence() {
             const sentence = await generateSentence();
-            console.log(sentence); // Debugging: Log the generated sentence
+            console.log(sentence); // For debugging
             const utterance = new SpeechSynthesisUtterance(sentence);
             window.speechSynthesis.speak(utterance);
         }
 
         document.getElementById('bubLink').addEventListener('click', async function(event) {
-            event.preventDefault(); // Prevent the default anchor behavior
+            event.preventDefault(); // Prevent the default behavior
             await speakSentence();
         });
     </script>
 </body>
 </html>
+
