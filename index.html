@@ -25,57 +25,48 @@
         </nav>
     </main>
     <script>
-        async function fetchRandomWikipediaPage(category) {
-            const url = 'https://en.wikipedia.org/w/api.php?' +
-                        new URLSearchParams({
-                            origin: '*',
-                            action: 'query',
-                            format: 'json',
-                            list: 'random',
-                            rnnamespace: 0,
-                            rnlimit: 1,
-                            generator: 'random',
-                            grnnamespace: 0,
-                            grnlimit: 1,
-                            grnfilterredir: 'nonredirects',
-                            grnwhat: category
-                        });
-
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
-                return data.query.pages[Object.keys(data.query.pages)[0]].title; // Returns the title of a random article
-            } catch (error) {
-                console.error(`Error fetching random Wikipedia ${category}:`, error);
-                return null;
-            }
+        async function fetchCities() {
+            const response = await fetch('https://raw.githubusercontent.com/khobster/portfolio/main/csvjson.json');
+            const cities = await response.json();
+            return cities;
         }
 
-        async function fetchRandomLocation() {
-            // Fetch a random location (town or city) from Wikipedia
-            return await fetchRandomWikipediaPage('category');
+        async function fetchRandomActivity() {
+            const response = await fetch('https://www.boredapi.com/api/activity/');
+            const data = await response.json();
+            return data.activity;
         }
 
-        async function fetchRandomPerson() {
-            // Fetch a random person from Wikipedia
-            return await fetchRandomWikipediaPage('person');
+        async function fetchRandomName() {
+            const response = await fetch('https://randomuser.me/api/');
+            const data = await response.json();
+            const name = `${data.results[0].name.first} ${data.results[0].name.last}`;
+            return name;
         }
 
         async function generateSentence() {
+            const cities = await fetchCities(); // Directly fetches and uses JSON
+            function getRandomElement(arr) {
+                return arr[Math.floor(Math.random() * arr.length)];
+            }
+
             const days = Math.floor(Math.random() * 100); // Random number of days
+            const randomActivity = await fetchRandomActivity();
+            const randomName = await fetchRandomName();
+            const randomCity = getRandomElement(cities);
 
-            const randomLocation = await fetchRandomLocation();
-            const randomPerson = await fetchRandomPerson();
-
-            const sentence = `In ${days} days, you'll be in ${randomLocation} with ${randomPerson}`;
-            return sentence;
+            return `In ${days} days, you'll be ${randomActivity} in ${randomCity} with ${randomName}.`;
         }
 
         async function speakSentence() {
             const sentence = await generateSentence();
             console.log(sentence); // For debugging
             const utterance = new SpeechSynthesisUtterance(sentence);
+            // Ensure the voice is set to Google UK English Male if available
             utterance.voice = speechSynthesis.getVoices().find(voice => voice.name === 'Google UK English Male');
+            if (!utterance.voice) {
+                console.log("Google UK English Male voice not found, using default voice.");
+            }
             window.speechSynthesis.speak(utterance);
         }
 
@@ -83,6 +74,12 @@
             event.preventDefault(); // Prevent the default behavior
             await speakSentence();
         });
+
+        // Ensures voices are loaded before attempting to speak
+        speechSynthesis.onvoiceschanged = function() {
+            document.getElementById('bubLink').click();
+        };
     </script>
 </body>
 </html>
+
