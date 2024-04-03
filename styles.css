@@ -69,6 +69,11 @@ nav a:hover {
     /* This creates the 'tail' of the speech bubble */
 }
 
+/* Ensure text visibility */
+.caption-bubble.show {
+    display: block;
+}
+
 .caption-bubble p {
     margin: 0; /* Remove default margin */
     color: #000; /* Black font color */
