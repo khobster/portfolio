@@ -69,7 +69,7 @@
             console.log(sentence); // For debugging
             
             const utterance = new SpeechSynthesisUtterance(sentence);
-            utterance.voice = speechSynthesis.getVoices().find(voice => voice.name === 'Google UK English Male');
+            utterance.voice = speechSynthesis.getVoices().find(voice => voice.name === 'Google US English Male');
             if (!utterance.voice) {
                 console.log("Google UK English Male voice not found, using default voice.");
             }
