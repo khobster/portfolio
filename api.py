@@ -1,11 +1,35 @@
-from flask import Flask
+import requests
 import random
 
-app = Flask(__name__)
+def fetch_random_person():
+    response = requests.get('https://randomuser.me/api/')
+    if response.status_code == 200:
+        data = response.json()
+        person = data['results'][0]['name']['first']
+        return person
+    else:
+        return None
 
-@app.route('/generate_sentence')
+def fetch_random_location():
+    response = requests.get('https://api.teleport.org/api/cities/')
+    if response.status_code == 200:
+        data = response.json()
+        city = random.choice(data['_links']['city:item'])['name']
+        return city
+    else:
+        return None
+
+def fetch_random_activity():
+    response = requests.get('https://www.boredapi.com/api/activity/')
+    if response.status_code == 200:
+        data = response.json()
+        activity = data['activity']
+        return activity
+    else:
+        return None
+
 def generate_sentence():
-    days = random.randint(1, 100) # Random number of days
+    days = random.randint(1, 100)  # Random number of days
     random_location = fetch_random_location()
     random_activity = fetch_random_activity()
     random_person = fetch_random_person()
@@ -13,17 +37,5 @@ def generate_sentence():
     sentence = f"In {days} days, you'll be {random_activity} in {random_location} with {random_person}"
     return sentence
 
-def fetch_random_person():
-    # Fetch random person data
-    ...
-
-def fetch_random_location():
-    # Fetch random location data
-    ...
-
-def fetch_random_activity():
-    # Fetch random activity data
-    ...
-
-if __name__ == '__main__':
-    app.run(debug=True)
+random_sentence = generate_sentence()
+print(random_sentence)
