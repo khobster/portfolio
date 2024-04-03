@@ -27,10 +27,8 @@
     <script>
         async function fetchRandomWord() {
             try {
-                // Making a general query without specifying parts of speech to ensure words are returned
-                const response = await fetch(`https://api.datamuse.com/words?max=10&topics=science`);
+                const response = await fetch(`https://api.datamuse.com/words?max=10`);
                 const words = await response.json();
-                console.log(words); // Debugging: Log the fetched words
                 if (words.length > 0) {
                     const randomIndex = Math.floor(Math.random() * words.length);
                     return words[randomIndex].word;
