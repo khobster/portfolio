@@ -12,8 +12,11 @@
     </header>
     <main>
         <h2>So I created this guy named Bub the Prophet.</h2>
-        <p id="sentenceFeedback">Click Bub's button to get your future.</p>
-        <button id="bubButton">Hear Your Destiny</button> <!-- Changed from <a> to <button> for better semantics -->
+        <p id="sentenceFeedback">Click Bub to get your future.</p>
+        <!-- Keep Bub's image as the clickable element for triggering speech -->
+        <a id="bubLink" href="#" style="cursor: pointer;">
+            <img src="bub%20the%20prophet%20no%20background.png" alt="Bub the Prophet">
+        </a>
         <nav>
             <ul>
                 <li><a href="copywriting.html">Copywriting</a></li>
@@ -55,23 +58,29 @@
             const randomCityObject = getRandomElement(cities);
             const randomCity = randomCityObject[","];
 
-            return `In ${days} days, you'll ${randomActivity} in ${randomCity}.`;
+            return `In ${days} days, you'll ${randomActivity} in ${randomCity} with ${randomName}.`;
         }
 
         function speakSentence(sentence) {
             const utterance = new SpeechSynthesisUtterance(sentence);
-            utterance.voice = speechSynthesis.getVoices().find(voice => voice.lang.startsWith('en') && voice.name.includes('Male')); // Updated voice selection logic
+            // Attempt to find a voice that matches your criteria
+            utterance.voice = speechSynthesis.getVoices().find(voice => voice.lang.startsWith('en') && voice.name.includes('Male'));
+            // Fallback to default if not found
+            if (!utterance.voice) {
+                console.log("Preferred voice not found, using default.");
+            }
             window.speechSynthesis.speak(utterance);
         }
 
         function wakeUpSpeechSynthesis() {
-            // This function is used to "wake up" the speech synthesis engine on mobile devices.
+            // Wake up the speech synthesis engine on mobile devices.
             speechSynthesis.speak(new SpeechSynthesisUtterance(''));
         }
 
-        document.getElementById('bubButton').addEventListener('click', async function(event) {
+        document.getElementById('bubLink').addEventListener('click', async function(event) {
+            event.preventDefault(); // Prevent the default behavior
+            wakeUpSpeechSynthesis(); // Try waking up the speech synthesis engine
             document.getElementById('sentenceFeedback').textContent = 'Preparing your destiny...';
-            wakeUpSpeechSynthesis(); // Wake up speech synthesis engine
             const sentence = await generateSentence();
             speakSentence(sentence);
             document.getElementById('sentenceFeedback').textContent = 'Click Bub to hear more.';
