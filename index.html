@@ -88,7 +88,7 @@
         document.getElementById('bubLink').addEventListener('click', async function(event) {
             event.preventDefault(); // Prevent the default behavior
             wakeUpSpeechSynthesis(); // Try waking up the speech synthesis engine
-            document.getElementById('sentenceFeedback').textContent = 'Preparing your destiny...';
+            document.getElementById('sentenceFeedback').textContent = 'You might wanna grab a pen...';
             const sentence = await generateSentence();
             speakSentence(sentence);
         });
