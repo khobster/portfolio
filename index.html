@@ -51,16 +51,6 @@
             return await fetchRandomWikipediaTitle();
         }
 
-        async function fetchRandomVerb() {
-            // Fetch a random verb from Wikipedia
-            return await fetchRandomWikipediaTitle();
-        }
-
-        async function fetchRandomCommonNoun() {
-            // Fetch a random common noun from Wikipedia
-            return await fetchRandomWikipediaTitle();
-        }
-
         async function fetchRandomPerson() {
             // Fetch a random person from Wikipedia
             return await fetchRandomWikipediaTitle();
@@ -70,11 +60,9 @@
             const days = Math.floor(Math.random() * 100); // Random number of days
 
             const randomLocation = await fetchRandomLocation();
-            const randomVerb = await fetchRandomVerb();
-            const randomNoun = await fetchRandomCommonNoun();
             const randomPerson = await fetchRandomPerson();
 
-            const sentence = `In ${days} days, you'll be in ${randomLocation} ${randomVerb} ${randomNoun} with ${randomPerson}`;
+            const sentence = `In ${days} days, you'll be in ${randomLocation} with ${randomPerson}`;
             return sentence;
         }
 
@@ -82,6 +70,7 @@
             const sentence = await generateSentence();
             console.log(sentence); // For debugging
             const utterance = new SpeechSynthesisUtterance(sentence);
+            utterance.voice = speechSynthesis.getVoices().find(voice => voice.name === 'Google UK English Male');
             window.speechSynthesis.speak(utterance);
         }
 
@@ -92,3 +81,4 @@
     </script>
 </body>
 </html>
+
