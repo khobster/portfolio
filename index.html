@@ -48,15 +48,11 @@
 
         async function generateSentence() {
             const randomTitle = await fetchRandomWikipediaTitle();
-            const verb1 = await fetchRandomWord('verb');
-            const noun1 = await fetchRandomWord('noun');
-            const preposition = await fetchRandomWord('preposition');
-            const verb2 = await fetchRandomWord('verb');
-            const noun2 = await fetchRandomWord('noun');
-            const verb3 = await fetchRandomWord('verb');
-            const noun3 = await fetchRandomWord('noun');
-
-            const sentence = `${verb1} ${noun1} ${preposition} ${verb2} ${noun2} ${preposition} ${verb3} ${noun3} in ${randomTitle}`;
+            const verb = await fetchRandomWord();
+            const noun = await fetchRandomWord();
+            const preposition = await fetchRandomWord();
+            const adverb = await fetchRandomWord();
+            const sentence = `In ${randomTitle}, ${verb} ${noun} ${preposition} ${adverb}.`;
             return sentence;
         }
 
@@ -67,8 +63,8 @@
             window.speechSynthesis.speak(utterance);
         }
 
-        async function fetchRandomWord(type) {
-            const response = await fetch(`https://random-word-api.herokuapp.com/word?number=1&type=${type}`);
+        async function fetchRandomWord() {
+            const response = await fetch('https://random-word-api.herokuapp.com/word?number=1&type=random');
             const data = await response.json();
             return data[0];
         }
