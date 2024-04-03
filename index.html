@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta viewport="width=device-width, initial-scale=1.0">
     <title>Kevin Hobster</title>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -12,6 +12,8 @@
     </header>
     <main>
         <h2>So I created this guy named Bub the Prophet.</h2>
+        <!-- Added an ID for text feedback -->
+        <p id="sentenceFeedback">Click Bub to hear your destiny.</p>
         <a id="bubLink" href="#">
             <img src="bub%20the%20prophet%20no%20background.png" alt="Bub the Prophet">
         </a>
@@ -45,40 +47,44 @@
         }
 
         async function generateSentence() {
-            const cities = await fetchCities(); // Directly fetches and uses JSON
+            const cities = await fetchCities();
             function getRandomElement(arr) {
                 return arr[Math.floor(Math.random() * arr.length)];
             }
 
-            const days = Math.floor(Math.random() * 100); // Random number of days
+            const days = Math.floor(Math.random() * 100);
             const randomActivity = await fetchRandomActivity();
             const randomName = await fetchRandomName();
             const randomCityObject = getRandomElement(cities);
-            const randomCity = randomCityObject[","]; // Correctly access the city-country pair
+            const randomCity = randomCityObject[","];
 
-            return `In ${days} days, you'll ${randomActivity} in ${randomCity} with ${randomName}.`;
+            return `In ${days} days, you'll be ${randomActivity} in ${randomCity} with ${randomName}.`;
         }
 
         async function speakSentence() {
+            // Set feedback for starting process
+            document.getElementById('sentenceFeedback').textContent = 'Preparing your destiny...';
+
             const sentence = await generateSentence();
             console.log(sentence); // For debugging
+            
             const utterance = new SpeechSynthesisUtterance(sentence);
             utterance.voice = speechSynthesis.getVoices().find(voice => voice.name === 'Google UK English Male');
             if (!utterance.voice) {
                 console.log("Google UK English Male voice not found, using default voice.");
             }
             window.speechSynthesis.speak(utterance);
+            
+            // Reset feedback after speaking
+            utterance.onend = () => {
+                document.getElementById('sentenceFeedback').textContent = 'Click Bub to hear your destiny again.';
+            };
         }
 
-        document.getElementById('bubLink').addEventListener('click', async function(event) {
+        document.getElementById('bubLink').addEventListener('click', function(event) {
             event.preventDefault(); // Prevent the default behavior
-            await speakSentence();
+            speakSentence();
         });
-
-        // Ensures voices are loaded before attempting to speak
-        speechSynthesis.onvoiceschanged = function() {
-            document.getElementById('bubLink').click();
-        };
     </script>
 </body>
 </html>
