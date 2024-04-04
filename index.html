@@ -10,10 +10,10 @@
     <header>
         <h1>Kevin Hobs</h1>
     </header>
-    <main style="position: relative;"> <!-- Added position: relative -->
+    <main>
         <h2>So I created this guy named Bub the Prophet.</h2>
         <p id="sentenceFeedback">Click Bub to get your future.</p>
-        <div id="captionBubble" class="caption-bubble"></div>
+        <!-- Keep Bub's image as the clickable element for triggering speech -->
         <a id="bubLink" href="#" style="cursor: pointer;">
             <img src="bub%20the%20prophet%20no%20background.png" alt="Bub the Prophet">
         </a>
@@ -56,39 +56,34 @@
             const randomActivity = await fetchRandomActivity();
             const randomName = await fetchRandomName();
             const randomCityObject = getRandomElement(cities);
-            const randomCity = randomCityObject.city; // Adjusted to 'city' assuming your JSON structure
+            const randomCity = randomCityObject[","];
 
-            return `In ${days} days, you'll ${randomActivity} in ${randomCity} with ${randomName}.`;
+            return `In ${days} days, you'll ${randomActivity} in ${randomCity}.`;
         }
 
         function speakSentence(sentence) {
             const utterance = new SpeechSynthesisUtterance(sentence);
+            // Attempt to find a voice that matches your criteria
             utterance.voice = speechSynthesis.getVoices().find(voice => voice.lang.startsWith('en') && voice.name.includes('Male'));
+            // Fallback to default if not found
             if (!utterance.voice) {
                 console.log("Preferred voice not found, using default.");
             }
             window.speechSynthesis.speak(utterance);
-
-            const captionBubble = document.getElementById('captionBubble');
-            captionBubble.textContent = sentence;
-            captionBubble.classList.add('show');
-
-            utterance.onend = () => {
-                document.getElementById('sentenceFeedback').textContent = 'Click Bub to hear more.';
-                captionBubble.classList.remove('show');
-            };
         }
 
         function wakeUpSpeechSynthesis() {
+            // Wake up the speech synthesis engine on mobile devices.
             speechSynthesis.speak(new SpeechSynthesisUtterance(''));
         }
 
         document.getElementById('bubLink').addEventListener('click', async function(event) {
-            event.preventDefault();
-            wakeUpSpeechSynthesis();
-            document.getElementById('sentenceFeedback').textContent = 'You might wanna grab a pen...';
+            event.preventDefault(); // Prevent the default behavior
+            wakeUpSpeechSynthesis(); // Try waking up the speech synthesis engine
+            document.getElementById('sentenceFeedback').textContent = 'Listen closely...';
             const sentence = await generateSentence();
             speakSentence(sentence);
+            document.getElementById('sentenceFeedback').textContent = 'Click Bub to hear more.';
         });
     </script>
 </body>
