@@ -59,19 +59,20 @@
             const randomCityObject = getRandomElement(cities);
             const randomCity = randomCityObject[","];
 
-            return `In ${days} days, you'll ${randomActivity} in ${randomCity} with ${randomName}.`;
+            return `In ${days} days, you'll ${randomActivity} in ${randomCity} with ${randomName}.`.replace(/,/g, ' ');
         }
 
         function speakSentence(sentence) {
-            const utterance = new SpeechSynthesisUtterance(sentence);
-            utterance.voice = speechSynthesis.getVoices().find(voice => voice.lang.startsWith('en') && voice.name.includes('Male'));
+            const formattedSentence = sentence.replace(/,/g, ' '); // Replace all commas with spaces
+            const utterance = new SpeechSynthesisUtterance(formattedSentence);
+            utterance.voice = speechSynthesis.getVoices().find(voice => voice.lang.startsWith('en') && voice.name includes('Male'));
             if (!utterance.voice) {
                 console.log("Preferred voice not found, using default.");
             }
             window.speechSynthesis.speak(utterance);
 
-            // Display the generated sentence
-            document.getElementById('generatedSentence').textContent = sentence;
+            // Display the generated sentence without commas
+            document.getElementById('generatedSentence').textContent = formattedSentence;
         }
 
         function wakeUpSpeechSynthesis() {
