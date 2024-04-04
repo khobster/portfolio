@@ -56,20 +56,22 @@
             const randomActivity = await fetchRandomActivity();
             const randomName = await fetchRandomName();
             const randomCityObject = getRandomElement(cities);
-            const randomCity = randomCityObject.city; // Assuming the correct property is 'city'
+            const randomCity = randomCityObject[","].replace(/,/g, ' '); // Replace commas with spaces
 
-            const sentence = `In ${days} days, you'll ${randomActivity} in ${randomCity} with ${randomName}.`;
-            return sentence.replace(/,/g, ' '); // Replace commas with spaces
+            return `In ${days} days, you'll ${randomActivity} in ${randomCity} with ${randomName}.`;
         }
 
-        async function speakSentence(sentence) {
-            const utterance = new SpeechSynthesisUtterance(sentence);
+        function speakSentence(sentence) {
+            const formattedSentence = sentence.replace(/,/g, ' '); // Further ensure all commas are replaced with spaces in the entire sentence
+            const utterance = new SpeechSynthesisUtterance(formattedSentence);
             utterance.voice = speechSynthesis.getVoices().find(voice => voice.lang.startsWith('en') && voice.name.includes('Male'));
             if (!utterance.voice) {
                 console.log("Preferred voice not found, using default.");
             }
             window.speechSynthesis.speak(utterance);
-            document.getElementById('generatedSentence').textContent = sentence; // Display the sentence
+
+            // Display the generated sentence without commas in the city name
+            document.getElementById('generatedSentence').textContent = formattedSentence;
         }
 
         function wakeUpSpeechSynthesis() {
@@ -82,6 +84,10 @@
             document.getElementById('sentenceFeedback').textContent = 'Listen closely...';
             const sentence = await generateSentence();
             speakSentence(sentence);
+            // Update the instruction text back only after the speech ends
+            window.speechSynthesis.onend = () => {
+                document.getElementById('sentenceFeedback').textContent = 'Click Bub to hear more.';
+            };
         });
     </script>
 </body>
