@@ -81,7 +81,7 @@
         document.getElementById('bubLink').addEventListener('click', async function(event) {
             event.preventDefault();
             wakeUpSpeechSynthesis();
-            document.getElementById('sentenceFeedback').textContent = 'Listen closely...';
+            document.getElementById('sentenceFeedback').textContent = 'Grab a pen and write this down...';
             const sentence = await generateSentence();
             speakSentence(sentence);
             // Update the instruction text back only after the speech ends
