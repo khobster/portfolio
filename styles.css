@@ -1,81 +1,79 @@
 body {
     font-family: 'Your-Font-Family', sans-serif;
-    color: #d35400; /* This color is for the text, choose what you prefer */
-    background-color: #fff; /* White background */
-    text-align: center; /* Center-aligning text */
+    color: #d35400;
+    background-color: #fff;
+    text-align: center;
     margin: 0;
     padding: 0;
 }
 
 header h1 {
-    margin-top: 50px; /* Adjust as needed */
-    font-size: 24px; /* Adjust as needed */
+    margin-top: 50px;
+    font-size: 24px;
 }
 
 main h2 {
-    font-size: 48px; /* Large, bold text */
-    margin: 20px 0; /* Space out the text */
+    font-size: 48px;
+    margin: 20px 0;
 }
 
 nav ul {
-    list-style-type: none; /* No bullets */
+    list-style-type: none;
     padding: 0;
 }
 
 nav li {
-    display: inline; /* Horizontal list */
-    margin-right: 20px; /* Spacing between links */
+    display: inline;
+    margin-right: 20px;
 }
 
 nav a {
-    text-decoration: none; /* No underline */
-    color: inherit; /* Same color as text */
-    font-size: 18px; /* Adjust as needed */
+    text-decoration: none;
+    color: inherit;
+    font-size: 18px;
 }
 
 nav a:hover {
-    text-decoration: underline; /* Underline on hover */
+    text-decoration: underline;
 }
 
 .caption-bubble {
     position: absolute;
-    min-width: 100px; /* Adjust based on your design */
-    max-width: 300px; /* Adjust based on your design */
+    min-width: 100px;
+    max-width: 300px;
     padding: 10px;
     background-color: #fff;
-    border: 2px solid #000; /* Black border */
+    border: 2px solid #000;
     border-radius: 10px;
-    font-family: 'Roboto', sans-serif; /* Use Roboto font */
-    font-weight: bold; /* Make font bold */
-    color: #000; /* Black font color */
-    display: none; /* Initially hidden */
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    color: #000;
+    display: none;
     text-align: center;
-    /* Position it near Bub's face */
-    top: 50%; /* Adjust this to move the bubble up or down */
-    left: 120%; /* Adjust this to move the bubble left or right */
-    transform: translateX(-100%); /* Adjust if needed */
-    z-index: 100; /* Ensure it's above other elements */
+    top: 20%; /* Adjusted for better positioning */
+    left: 50%; /* Centered horizontally relative to the parent */
+    transform: translate(-50%, -100%); /* Center and move above the link */
+    z-index: 100;
 }
 
 .caption-bubble::after {
     content: '';
     position: absolute;
-    top: 50%;
-    left: -20px; /* Adjust this to align with the edge of the bubble */
-    margin-top: -10px;
-    border-width: 20px;
+    top: 100%; /* Tail at the bottom of the bubble */
+    left: 50%; /* Center the tail */
+    transform: translateX(-50%);
+    border-width: 10px;
     border-style: solid;
-    border-color: transparent transparent transparent #fff;
-    /* This creates the 'tail' of the speech bubble */
+    border-color: #fff transparent transparent transparent;
 }
 
-/* Ensure text visibility */
 .caption-bubble.show {
     display: block;
 }
 
 .caption-bubble p {
-    margin: 0; /* Remove default margin */
-    color: #000; /* Black font color */
-    font-weight: bold; /* Make font bold */
+    margin: 0;
+    color: #000;
+    font-weight: bold;
 }
+
